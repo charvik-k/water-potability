@@ -1,8 +1,6 @@
-const configuredApiBase = document.querySelector('meta[name="api-base-url"]')?.content.trim().replace(/\/$/, '');
-const isLocalDevelopment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-const apiBaseUrl = configuredApiBase || (isLocalDevelopment ? 'http://127.0.0.1:8000' : '');
-const apiUrl = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
+const apiBaseUrl = 'https://water-potability-apmz.onrender.com';
 
+const apiUrl = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
 const form = document.querySelector('#water-form');
 const submitButton = document.querySelector('#submit-button');
 const buttonLabel = submitButton.querySelector('.button-label');
