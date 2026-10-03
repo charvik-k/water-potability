@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f8f8">
+  <meta name="description" content="Assess water quality measurements with the Water Potability Prediction dashboard.">
+  <title>Water Potability Prediction</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="api-base-url" content="">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="ClearWater home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5C12.3 9.1 6.8 14 6.8 20.1a9.2 9.2 0 0 0 18.4 0C25.2 14 19.7 9.1 16 3.5Z" fill="currentColor"/><path d="M11.2 20.7c.3 2.4 2.1 4 4.7 4.4" stroke="#EAF8F6" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand-lockup"><span class="brand-name">ClearWater<span class="brand-dot">.</span></span><span class="brand-tagline">AI-assisted water quality assessment</span></span>
+      </a>
+      <div class="topbar-meta"><span class="status-dot"></span> Analysis workspace</div>
+    </header>
+
+    <main id="top" class="main-content">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-line"></span> WATER QUALITY INSIGHTS</div>
+        <h1 id="page-title">Water Potability<br class="mobile-break"> Prediction</h1>
+        <p class="subtitle">Enter water-quality measurements to assess whether a sample is predicted to be potable.</p>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="panel form-panel" aria-labelledby="measurements-title">
+          <div class="panel-heading">
+            <div class="heading-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 19V9m7 10V5m7 14v-7M3 19h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h2 id="measurements-title">Sample measurements</h2>
+              <p>Provide all nine water-quality parameters</p>
+            </div>
+            <span class="required-note"><span aria-hidden="true">*</span> Required</span>
+          </div>
+
+          <form id="water-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="ph">pH <span class="unit">(0&ndash;14)</span></label>
+                <div class="input-wrap"><input id="ph" name="ph" type="number" inputmode="decimal" min="0" max="14" step="any" placeholder="e.g. 7.2" required><span class="field-unit">pH</span></div>
+                <span class="field-hint">Acidity or alkalinity level</span>
+              </div>
+              <div class="field">
+                <label for="Hardness">Hardness <span class="unit">(mg/L)</span></label>
+                <div class="input-wrap"><input id="Hardness" name="Hardness" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 196.3" required><span class="field-unit">mg/L</span></div>
+                <span class="field-hint">Mineral concentration</span>
+              </div>
+              <div class="field">
+                <label for="Solids">Total dissolved solids <span class="unit">(ppm)</span></label>
+                <div class="input-wrap"><input id="Solids" name="Solids" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 21450" required><span class="field-unit">ppm</span></div>
+                <span class="field-hint">Dissolved inorganic matter</span>
+              </div>
+              <div class="field">
+                <label for="Chloramines">Chloramines <span class="unit">(mg/L)</span></label>
+                <div class="input-wrap"><input id="Chloramines" name="Chloramines" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 7.1" required><span class="field-unit">mg/L</span></div>
+                <span class="field-hint">Disinfectant concentration</span>
+              </div>
+              <div class="field">
+                <label for="Sulfate">Sulfate <span class="unit">(mg/L)</span></label>
+                <div class="input-wrap"><input id="Sulfate" name="Sulfate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 333.2" required><span class="field-unit">mg/L</span></div>
+                <span class="field-hint">Sulfate ion concentration</span>
+              </div>
+              <div class="field">
+                <label for="Conductivity">Conductivity <span class="unit">(&micro;S/cm)</span></label>
+                <div class="input-wrap"><input id="Conductivity" name="Conductivity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 426" required><span class="field-unit">&micro;S/cm</span></div>
+                <span class="field-hint">Electrical conductivity</span>
+              </div>
+              <div class="field">
+                <label for="Organic_carbon">Organic carbon <span class="unit">(mg/L)</span></label>
+                <div class="input-wrap"><input id="Organic_carbon" name="Organic_carbon" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 14.2" required><span class="field-unit">mg/L</span></div>
+                <span class="field-hint">Total organic carbon level</span>
+              </div>
+              <div class="field">
+                <label for="Trihalomethanes">Trihalomethanes <span class="unit">(&micro;g/L)</span></label>
+                <div class="input-wrap"><input id="Trihalomethanes" name="Trihalomethanes" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 66.3" required><span class="field-unit">&micro;g/L</span></div>
+                <span class="field-hint">Disinfection byproduct level</span>
+              </div>
+              <div class="field">
+                <label for="Turbidity">Turbidity <span class="unit">(NTU)</span></label>
+                <div class="input-wrap"><input id="Turbidity" name="Turbidity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 3.9" required><span class="field-unit">NTU</span></div>
+                <span class="field-hint">Water clarity measurement</span>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <p class="privacy-note"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 3.5 5v4.8c0 4 2.8 6.6 6.5 7.7 3.7-1.1 6.5-3.7 6.5-7.7V5L10 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="m7.5 10 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Results are generated by the trained prediction model.</p>
+              <button class="submit-button" id="submit-button" type="submit">
+                <span class="button-label">Analyze Water</span>
+                <svg class="button-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="button-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+        </section>
+
+        <aside class="result-panel" aria-labelledby="result-title">
+          <div class="result-topline"><span class="result-kicker">LATEST ANALYSIS</span><span class="result-live"><span class="status-dot"></span> READY</span></div>
+          <div class="result-content" id="result-content" aria-live="polite" aria-atomic="true">
+            <div class="result-illustration" aria-hidden="true">
+              <svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="51" fill="#EAF5F3"/><circle cx="60" cy="60" r="38" fill="#D9ECE8"/><path d="M60 30c-8.5 12.8-21 24.1-21 35.4a21 21 0 0 0 42 0C81 54.1 68.5 42.8 60 30Z" fill="#168B82"/><path d="M49.8 66.6c.8 5 4.1 8.1 9 9.2" stroke="#F5FCFB" stroke-width="3" stroke-linecap="round"/><circle cx="89" cy="34" r="7" fill="#B5D8D2"/><circle cx="30" cy="76" r="4" fill="#B5D8D2"/></svg>
+            </div>
+            <h2 id="result-title">Your result will appear here</h2>
+            <p class="result-description">Complete the measurements and run an analysis to see the predicted water potability.</p>
+            <div class="result-divider"></div>
+            <div class="probability-row"><span>Predicted probability</span><span class="probability-placeholder">&mdash;</span></div>
+          </div>
+          <div class="model-facts" aria-label="Model information">
+            <div><span>Model</span><strong>PSO-Optimized Random Forest</strong></div>
+            <div><span>Optimization</span><strong>Particle Swarm Optimization</strong></div>
+            <div><span>Objective</span><strong>Macro F1</strong></div>
+          </div>
+          <details class="model-notes">
+            <summary>About this model</summary>
+            <ul>
+              <li>Random Forest classifier tuned with Particle Swarm Optimization.</li>
+              <li>5-fold stratified cross-validation; Macro F1 optimization objective.</li>
+              <li>The deployed model includes its preprocessing pipeline.</li>
+            </ul>
+          </details>
+          <div class="result-footnote"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.3" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.3v3.2M8 5.1h.01" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Prediction is an estimate and should be validated with appropriate laboratory water testing.</div>
+        </aside>
+      </div>
+      <footer class="page-footer"><span>ClearWater <span class="footer-dot">&middot;</span> Water quality analysis</span><span>For informational use</span></footer>
+    </main>
+  </div>
+</body>
+</html>
