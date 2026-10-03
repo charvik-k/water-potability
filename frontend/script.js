@@ -1,6 +1,7 @@
-const apiBaseUrl = 'https://water-potability-apmz.onrender.com';
-
-const apiUrl = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
+const isLocalDevelopment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const configuredApiBase = document.querySelector('meta[name="api-base-url"]')?.content.trim().replace(/\/$/, '');
+const apiBaseUrl = isLocalDevelopment ? 'http://127.0.0.1:8000' : (configuredApiBase || '/api');
+const apiUrl = `${apiBaseUrl}/predict`;
 const form = document.querySelector('#water-form');
 const submitButton = document.querySelector('#submit-button');
 const buttonLabel = submitButton.querySelector('.button-label');
@@ -110,10 +111,6 @@ form.addEventListener('submit', async (event) => {
 
   setLoading(true);
   try {
-    if (!apiUrl) {
-      throw new Error('Set the deployed backend URL in the api-base-url meta tag before publishing this frontend.');
-    }
-
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -131,7 +128,7 @@ form.addEventListener('submit', async (event) => {
     renderPrediction(data);
   } catch (error) {
     const message = error instanceof TypeError
-      ? 'Could not reach the prediction API. Make sure the backend is running at http://127.0.0.1:8000.'
+      ? `The request to ${new URL(apiUrl, window.location.href).href} could not be completed. Check the API route and backend availability.`
       : error.message;
     showError(message);
   } finally {
