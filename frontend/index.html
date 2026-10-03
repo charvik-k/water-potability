@@ -3,134 +3,187 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f8f8">
-  <meta name="description" content="Assess water quality measurements with the Water Potability Prediction dashboard.">
-  <title>Water Potability Prediction</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#f3f8f8">
+  <meta name="description" content="Research prototype for water potability prediction using a PSO-optimized Random Forest.">
   <meta name="api-base-url" content="">
+  <title>Water Potability Prediction | ClearWater</title>
+  <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to analysis</a>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="#top" aria-label="ClearWater home">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5C12.3 9.1 6.8 14 6.8 20.1a9.2 9.2 0 0 0 18.4 0C25.2 14 19.7 9.1 16 3.5Z" fill="currentColor"/><path d="M11.2 20.7c.3 2.4 2.1 4 4.7 4.4" stroke="#EAF8F6" stroke-width="1.8" stroke-linecap="round"/></svg>
         </span>
-        <span class="brand-lockup"><span class="brand-name">ClearWater<span class="brand-dot">.</span></span><span class="brand-tagline">AI-assisted water quality assessment</span></span>
+        <span class="brand-lockup"><span class="brand-name">ClearWater<span class="brand-dot">.</span></span><span class="brand-tagline">ENVIRONMENTAL AI</span></span>
       </a>
-      <div class="topbar-meta"><span class="status-dot"></span> Analysis workspace</div>
+      <span class="topbar-note"><span class="topbar-orbit" aria-hidden="true"></span> Research framework</span>
     </header>
 
-    <main id="top" class="main-content">
-      <section class="intro" aria-labelledby="page-title">
-        <div class="eyebrow"><span class="eyebrow-line"></span> WATER QUALITY INSIGHTS</div>
-        <h1 id="page-title">Water Potability<br class="mobile-break"> Prediction</h1>
-        <p class="subtitle">Enter water-quality measurements to assess whether a sample is predicted to be potable.</p>
+    <main id="main-content" class="main-content">
+      <section class="hero" id="top" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-rule"></span> CLEARWATER <span class="eyebrow-separator">/</span> ENVIRONMENTAL AI</p>
+          <h1 id="page-title">Water Potability<br><span>Prediction</span></h1>
+          <p class="hero-description">Assess water-quality samples using a PSO-optimized Random Forest model.</p>
+          <div class="hero-meta" aria-label="Model approach">
+            <span><i></i> PSO-Optimized Random Forest</span><span>Particle Swarm Optimization</span><span>5-Fold Cross-Validation</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-ring ring-outer"></div><div class="hero-ring ring-inner"></div>
+          <div class="hero-watermark"><svg viewBox="0 0 120 140" fill="none"><path d="M60 9C47 30 21 56 21 83a39 39 0 0 0 78 0C99 56 73 30 60 9Z" fill="currentColor"/><path d="M43 82c1.5 11 9 18 20 20" stroke="#F3F9F8" stroke-width="4" stroke-linecap="round"/><path d="M16 119c12 7 26 11 44 11 17 0 31-4 44-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".33"/></svg></div>
+          <div class="art-caption"><span class="art-caption-mark"></span><span>DATA-DRIVEN<br>WATER ASSESSMENT</span></div>
+          <span class="art-coordinate">H₂O&nbsp; / &nbsp;ML</span>
+        </div>
       </section>
 
-      <div class="dashboard-grid">
-        <section class="panel form-panel" aria-labelledby="measurements-title">
-          <div class="panel-heading">
-            <div class="heading-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M5 19V9m7 10V5m7 14v-7M3 19h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <section class="analysis-layout" aria-label="Water sample analysis">
+        <section class="surface analysis-card" aria-labelledby="analysis-title">
+          <div class="section-heading">
+            <div class="section-index">01 <span></span> INPUT</div>
+            <div class="section-title-wrap">
+              <h2 id="analysis-title">Water Quality Analysis</h2>
+              <p>Enter the measured physicochemical parameters for your sample.</p>
             </div>
-            <div>
-              <h2 id="measurements-title">Sample measurements</h2>
-              <p>Provide all nine water-quality parameters</p>
-            </div>
-            <span class="required-note"><span aria-hidden="true">*</span> Required</span>
+            <span class="required-tag"><span aria-hidden="true">*</span> Required</span>
           </div>
 
           <form id="water-form" novalidate>
             <div class="field-grid">
-              <div class="field">
-                <label for="ph">pH <span class="unit">(0&ndash;14)</span></label>
-                <div class="input-wrap"><input id="ph" name="ph" type="number" inputmode="decimal" min="0" max="14" step="any" placeholder="e.g. 7.2" required><span class="field-unit">pH</span></div>
-                <span class="field-hint">Acidity or alkalinity level</span>
-              </div>
-              <div class="field">
-                <label for="Hardness">Hardness <span class="unit">(mg/L)</span></label>
-                <div class="input-wrap"><input id="Hardness" name="Hardness" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 196.3" required><span class="field-unit">mg/L</span></div>
-                <span class="field-hint">Mineral concentration</span>
-              </div>
-              <div class="field">
-                <label for="Solids">Total dissolved solids <span class="unit">(ppm)</span></label>
-                <div class="input-wrap"><input id="Solids" name="Solids" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 21450" required><span class="field-unit">ppm</span></div>
-                <span class="field-hint">Dissolved inorganic matter</span>
-              </div>
-              <div class="field">
-                <label for="Chloramines">Chloramines <span class="unit">(mg/L)</span></label>
-                <div class="input-wrap"><input id="Chloramines" name="Chloramines" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 7.1" required><span class="field-unit">mg/L</span></div>
-                <span class="field-hint">Disinfectant concentration</span>
-              </div>
-              <div class="field">
-                <label for="Sulfate">Sulfate <span class="unit">(mg/L)</span></label>
-                <div class="input-wrap"><input id="Sulfate" name="Sulfate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 333.2" required><span class="field-unit">mg/L</span></div>
-                <span class="field-hint">Sulfate ion concentration</span>
-              </div>
-              <div class="field">
-                <label for="Conductivity">Conductivity <span class="unit">(&micro;S/cm)</span></label>
-                <div class="input-wrap"><input id="Conductivity" name="Conductivity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 426" required><span class="field-unit">&micro;S/cm</span></div>
-                <span class="field-hint">Electrical conductivity</span>
-              </div>
-              <div class="field">
-                <label for="Organic_carbon">Organic carbon <span class="unit">(mg/L)</span></label>
-                <div class="input-wrap"><input id="Organic_carbon" name="Organic_carbon" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 14.2" required><span class="field-unit">mg/L</span></div>
-                <span class="field-hint">Total organic carbon level</span>
-              </div>
-              <div class="field">
-                <label for="Trihalomethanes">Trihalomethanes <span class="unit">(&micro;g/L)</span></label>
-                <div class="input-wrap"><input id="Trihalomethanes" name="Trihalomethanes" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 66.3" required><span class="field-unit">&micro;g/L</span></div>
-                <span class="field-hint">Disinfection byproduct level</span>
-              </div>
-              <div class="field">
-                <label for="Turbidity">Turbidity <span class="unit">(NTU)</span></label>
-                <div class="input-wrap"><input id="Turbidity" name="Turbidity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 3.9" required><span class="field-unit">NTU</span></div>
-                <span class="field-hint">Water clarity measurement</span>
-              </div>
+              <div class="field"><label for="ph">pH <span class="unit">0–14</span></label><div class="input-wrap"><input id="ph" name="ph" type="number" inputmode="decimal" min="0" max="14" step="any" placeholder="e.g. 7.2" required><span class="field-unit">pH</span></div><span class="field-hint">Acidity or alkalinity level</span></div>
+              <div class="field"><label for="Hardness">Hardness <span class="unit">mg/L</span></label><div class="input-wrap"><input id="Hardness" name="Hardness" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 196.3" required><span class="field-unit">mg/L</span></div><span class="field-hint">Mineral concentration</span></div>
+              <div class="field"><label for="Solids">Solids <span class="unit">ppm</span></label><div class="input-wrap"><input id="Solids" name="Solids" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 21450" required><span class="field-unit">ppm</span></div><span class="field-hint">Total dissolved solids</span></div>
+              <div class="field"><label for="Chloramines">Chloramines <span class="unit">mg/L</span></label><div class="input-wrap"><input id="Chloramines" name="Chloramines" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 7.1" required><span class="field-unit">mg/L</span></div><span class="field-hint">Disinfectant concentration</span></div>
+              <div class="field"><label for="Sulfate">Sulfate <span class="unit">mg/L</span></label><div class="input-wrap"><input id="Sulfate" name="Sulfate" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 333.2" required><span class="field-unit">mg/L</span></div><span class="field-hint">Sulfate ion concentration</span></div>
+              <div class="field"><label for="Conductivity">Conductivity <span class="unit">μS/cm</span></label><div class="input-wrap"><input id="Conductivity" name="Conductivity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 426" required><span class="field-unit">μS/cm</span></div><span class="field-hint">Electrical conductivity</span></div>
+              <div class="field"><label for="Organic_carbon">Organic carbon <span class="unit">mg/L</span></label><div class="input-wrap"><input id="Organic_carbon" name="Organic_carbon" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 14.2" required><span class="field-unit">mg/L</span></div><span class="field-hint">Total organic carbon</span></div>
+              <div class="field"><label for="Trihalomethanes">Trihalomethanes <span class="unit">μg/L</span></label><div class="input-wrap"><input id="Trihalomethanes" name="Trihalomethanes" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 66.3" required><span class="field-unit">μg/L</span></div><span class="field-hint">Disinfection byproduct level</span></div>
+              <div class="field"><label for="Turbidity">Turbidity <span class="unit">NTU</span></label><div class="input-wrap"><input id="Turbidity" name="Turbidity" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 3.9" required><span class="field-unit">NTU</span></div><span class="field-hint">Water clarity measurement</span></div>
             </div>
-
-            <div class="form-footer">
-              <p class="privacy-note"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 3.5 5v4.8c0 4 2.8 6.6 6.5 7.7 3.7-1.1 6.5-3.7 6.5-7.7V5L10 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="m7.5 10 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Results are generated by the trained prediction model.</p>
-              <button class="submit-button" id="submit-button" type="submit">
-                <span class="button-label">Analyze Water</span>
-                <svg class="button-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="button-spinner" aria-hidden="true"></span>
-              </button>
+            <div class="form-bottom">
+              <p class="form-note"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 3.5 5v4.8c0 4 2.8 6.6 6.5 7.7 3.7-1.1 6.5-3.7 6.5-7.7V5L10 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="m7.5 10 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>All fields are required for a sample assessment.</p>
+              <button class="submit-button" id="submit-button" type="submit"><span class="button-label">Analyze Water</span><svg class="button-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="button-spinner" aria-hidden="true"></span></button>
             </div>
             <p id="form-error" class="form-error" role="alert" hidden></p>
           </form>
         </section>
 
-        <aside class="result-panel" aria-labelledby="result-title">
-          <div class="result-topline"><span class="result-kicker">LATEST ANALYSIS</span><span class="result-live"><span class="status-dot"></span> READY</span></div>
+        <aside class="surface result-card" aria-labelledby="result-card-heading">
+          <div class="result-head"><div><span class="section-index">02 <span></span> OUTPUT</span><h2 id="result-card-heading">Analysis Result</h2></div><span class="result-state"><i></i><span>AWAITING SAMPLE</span></span></div>
           <div class="result-content" id="result-content" aria-live="polite" aria-atomic="true">
-            <div class="result-illustration" aria-hidden="true">
-              <svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="51" fill="#EAF5F3"/><circle cx="60" cy="60" r="38" fill="#D9ECE8"/><path d="M60 30c-8.5 12.8-21 24.1-21 35.4a21 21 0 0 0 42 0C81 54.1 68.5 42.8 60 30Z" fill="#168B82"/><path d="M49.8 66.6c.8 5 4.1 8.1 9 9.2" stroke="#F5FCFB" stroke-width="3" stroke-linecap="round"/><circle cx="89" cy="34" r="7" fill="#B5D8D2"/><circle cx="30" cy="76" r="4" fill="#B5D8D2"/></svg>
+            <div class="result-emblem" aria-hidden="true"><span class="emblem-ring"></span><svg viewBox="0 0 54 64" fill="none"><path d="M27 4C21 14 9 26 9 39a18 18 0 0 0 36 0C45 26 33 14 27 4Z" fill="currentColor"/><path d="M19 39c.7 5 4 8 9 9" stroke="#F5FAF9" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+            <p class="result-overline">MODEL CLASSIFICATION</p>
+            <h3 id="result-title">Ready for analysis</h3>
+            <p class="result-description">Enter all nine measurements to generate a prediction.</p>
+            <div class="probability-block">
+              <div class="probability-heading"><span>Predicted probability</span><strong class="probability-value">—</strong></div>
+              <div class="probability-track" role="progressbar" aria-label="Predicted probability" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="probability-fill"></span></div>
+              <div class="probability-scale"><span>0%</span><span>100%</span></div>
             </div>
-            <h2 id="result-title">Your result will appear here</h2>
-            <p class="result-description">Complete the measurements and run an analysis to see the predicted water potability.</p>
-            <div class="result-divider"></div>
-            <div class="probability-row"><span>Predicted probability</span><span class="probability-placeholder">&mdash;</span></div>
           </div>
-          <div class="model-facts" aria-label="Model information">
+          <div class="result-metadata">
             <div><span>Model</span><strong>PSO-Optimized Random Forest</strong></div>
             <div><span>Optimization</span><strong>Particle Swarm Optimization</strong></div>
             <div><span>Objective</span><strong>Macro F1</strong></div>
           </div>
-          <details class="model-notes">
-            <summary>About this model</summary>
-            <ul>
-              <li>Random Forest classifier tuned with Particle Swarm Optimization.</li>
-              <li>5-fold stratified cross-validation; Macro F1 optimization objective.</li>
-              <li>The deployed model includes its preprocessing pipeline.</li>
-            </ul>
-          </details>
-          <div class="result-footnote"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.3" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.3v3.2M8 5.1h.01" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Prediction is an estimate and should be validated with appropriate laboratory water testing.</div>
+          <p class="result-disclaimer"><span aria-hidden="true">i</span> Prediction is an estimate, not laboratory certification.</p>
         </aside>
-      </div>
-      <footer class="page-footer"><span>ClearWater <span class="footer-dot">&middot;</span> Water quality analysis</span><span>For informational use</span></footer>
+      </section>
+
+      <section class="section-block performance-section" aria-labelledby="performance-title">
+        <div class="section-intro">
+          <p class="section-index">03 <span></span> EVALUATION</p>
+          <h2 id="performance-title">Model Performance</h2>
+          <p>Performance is evaluated against a held-out test set. PSO tuning is performed using stratified cross-validation.</p>
+        </div>
+        <div class="surface performance-card">
+          <div class="performance-topline"><span>HELD-OUT TEST SET</span><span class="performance-tag"><i></i> BASELINE VS. PSO</span></div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th scope="col">Metric</th><th scope="col">Baseline RF</th><th scope="col">PSO RF</th><th scope="col">Change</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Accuracy</th><td data-label="Baseline RF">65.85%</td><td class="best-value" data-label="PSO RF">67.22%</td><td data-label="Change"><span class="gain">+1.37 pp</span></td></tr>
+                <tr><th scope="row">Balanced Accuracy</th><td data-label="Baseline RF">59.34%</td><td class="best-value" data-label="PSO RF">61.36%</td><td data-label="Change"><span class="gain">+2.02 pp</span></td></tr>
+                <tr><th scope="row">Weighted F1</th><td data-label="Baseline RF">62.16%</td><td class="best-value" data-label="PSO RF">64.10%</td><td data-label="Change"><span class="gain">+1.94 pp</span></td></tr>
+                <tr><th scope="row">Macro F1</th><td data-label="Baseline RF">58.25%</td><td class="best-value" data-label="PSO RF">60.42%</td><td data-label="Change"><span class="gain">+2.17 pp</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-footnote">pp = percentage points. Metrics describe model evaluation only; they do not certify water safety.</p>
+        </div>
+      </section>
+
+      <section class="section-block insight-layout" aria-labelledby="insight-title">
+        <div class="section-intro">
+          <p class="section-index">04 <span></span> CLASSIFICATION INSIGHT</p>
+          <h2 id="insight-title">Recall by class</h2>
+          <p>Class-level recall shows how often samples from each class are correctly identified.</p>
+        </div>
+        <div class="surface recall-card">
+          <div class="recall-item"><div class="recall-label"><span>Non-Potable recall</span><strong>91%</strong></div><div class="recall-track"><span style="--recall:91%"></span></div></div>
+          <div class="recall-item potable-recall"><div class="recall-label"><span>Potable recall</span><strong>30%</strong></div><div class="recall-track"><span style="--recall:30%"></span></div></div>
+          <div class="recall-note"><span class="note-mark" aria-hidden="true">!</span><p>The current model identifies non-potable samples with substantially higher recall than potable samples. This class imbalance is an important limitation of the current prototype.</p></div>
+        </div>
+      </section>
+
+      <section class="section-block workflow-section" aria-labelledby="workflow-title">
+        <div class="section-intro section-intro-wide">
+          <p class="section-index">05 <span></span> METHODOLOGY</p>
+          <h2 id="workflow-title">How the model works</h2>
+          <p>A compact view of the training and inference workflow.</p>
+        </div>
+        <ol class="workflow-list">
+          <li class="workflow-step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">↗</span><strong>Water Quality<br>Data</strong><span class="step-caption">Measured features</span></li>
+          <li class="workflow-step"><span class="step-number">02</span><span class="step-icon" aria-hidden="true">◌</span><strong>Preprocessing</strong><span class="step-caption">Pipeline transforms</span></li>
+          <li class="workflow-step"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▦</span><strong>Baseline Random<br>Forest</strong><span class="step-caption">Reference model</span></li>
+          <li class="workflow-step workflow-highlight"><span class="step-number">04</span><span class="step-icon" aria-hidden="true">✳</span><strong>PSO Hyperparameter<br>Optimization</strong><span class="step-caption">5-fold stratified CV</span></li>
+          <li class="workflow-step"><span class="step-number">05</span><span class="step-icon" aria-hidden="true">▦</span><strong>Optimized Random<br>Forest</strong><span class="step-caption">Macro F1 objective</span></li>
+          <li class="workflow-step"><span class="step-number">06</span><span class="step-icon" aria-hidden="true">⌁</span><strong>Prediction</strong><span class="step-caption">FastAPI inference</span></li>
+        </ol>
+      </section>
+
+      <section class="section-block intelligence-layout" aria-label="Model intelligence and details">
+        <article class="surface intelligence-card" aria-labelledby="why-pso-title">
+          <p class="section-index">06 <span></span> OPTIMIZATION</p>
+          <h2 id="why-pso-title">Why PSO?</h2>
+          <p class="card-copy">Particle Swarm Optimization automatically searches for effective Random Forest hyperparameters instead of relying entirely on manual tuning.</p>
+          <div class="parameter-heading"><span>SEARCH SPACE</span><span>6 PARAMETERS</span></div>
+          <ul class="parameter-list">
+            <li>n_estimators</li><li>max_depth</li><li>min_samples_split</li><li>min_samples_leaf</li><li>max_features</li><li>class_weight</li>
+          </ul>
+        </article>
+        <article class="surface details-card" aria-labelledby="details-title">
+          <p class="section-index">07 <span></span> MODEL SPECIFICATION</p>
+          <h2 id="details-title">Model Details</h2>
+          <dl class="details-list">
+            <div><dt>Algorithm</dt><dd>Random Forest</dd></div>
+            <div><dt>Optimization</dt><dd>Particle Swarm Optimization</dd></div>
+            <div><dt>Search</dt><dd>6 hyperparameters</dd></div>
+            <div><dt>Validation</dt><dd>5-fold StratifiedKFold</dd></div>
+            <div><dt>Objective</dt><dd>Macro F1</dd></div>
+            <div><dt>Deployment</dt><dd>FastAPI + joblib</dd></div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="research-note" aria-label="Research limitation">
+        <span class="research-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 10.7v5M12 7.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div><strong>Research prototype</strong><p>Predictions are estimates and should not be treated as laboratory certification of water safety.</p></div>
+        <span class="research-endmark">LIMITATION / 01</span>
+      </section>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="#top">ClearWater<span>.</span></a>
+        <span>Water Potability Prediction Framework</span>
+        <span class="footer-prototype">AI/ML RESEARCH PROTOTYPE</span>
+      </footer>
     </main>
   </div>
 </body>

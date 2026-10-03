@@ -1,19 +1,21 @@
 const configuredApiBase = document.querySelector('meta[name="api-base-url"]')?.content.trim().replace(/\/$/, '');
 const isLocalDevelopment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 const apiBaseUrl = configuredApiBase || (isLocalDevelopment ? 'http://127.0.0.1:8000' : '');
-const API_URL = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
+const apiUrl = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
 
 const form = document.querySelector('#water-form');
 const submitButton = document.querySelector('#submit-button');
 const buttonLabel = submitButton.querySelector('.button-label');
 const formError = document.querySelector('#form-error');
-const resultPanel = document.querySelector('.result-panel');
+const resultCard = document.querySelector('.result-card');
 const resultTitle = document.querySelector('#result-title');
 const resultDescription = document.querySelector('.result-description');
-const probabilityValue = document.querySelector('.probability-placeholder');
-const resultLive = document.querySelector('.result-live');
+const probabilityValue = document.querySelector('.probability-value');
+const probabilityTrack = document.querySelector('.probability-track');
+const probabilityFill = document.querySelector('.probability-fill');
+const resultState = document.querySelector('.result-state span');
 
-// Keep the submitted property names identical to those expected by the API.
+// Keep the submitted names and ordering aligned with the trained pipeline.
 const featureNames = [
   'ph',
   'Hardness',
@@ -25,6 +27,8 @@ const featureNames = [
   'Trihalomethanes',
   'Turbidity',
 ];
+
+let isLoading = false;
 
 function showError(message) {
   formError.textContent = message;
@@ -59,6 +63,34 @@ function validateForm() {
   return true;
 }
 
+function setLoading(loading) {
+  isLoading = loading;
+  submitButton.disabled = loading;
+  submitButton.classList.toggle('loading', loading);
+  submitButton.setAttribute('aria-busy', String(loading));
+  resultCard.classList.toggle('loading', loading);
+  resultState.textContent = loading ? 'ANALYZING' : (resultCard.classList.contains('has-result') ? 'COMPLETE' : 'AWAITING SAMPLE');
+  buttonLabel.textContent = loading ? 'Analyzing sample...' : 'Analyze Water';
+}
+
+function renderPrediction(data) {
+  const className = data.prediction === 1 ? 'potable' : 'non-potable';
+  const percentage = data.probability * 100;
+
+  resultCard.classList.remove('potable', 'non-potable');
+  resultCard.classList.add('has-result', className);
+  resultTitle.textContent = data.label;
+  resultDescription.textContent = 'Predicted classification for this water sample.';
+  probabilityValue.textContent = `${percentage.toFixed(2)}%`;
+  probabilityTrack.setAttribute('aria-valuenow', percentage.toFixed(2));
+
+  // Let the browser paint the empty track before animating to the returned probability.
+  probabilityFill.style.width = '0%';
+  requestAnimationFrame(() => {
+    probabilityFill.style.width = `${percentage}%`;
+  });
+}
+
 form.addEventListener('input', (event) => {
   const input = event.target;
   if (input.matches('input[type="number"]')) {
@@ -70,6 +102,7 @@ form.addEventListener('input', (event) => {
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (isLoading) return;
   clearError();
   if (!validateForm()) return;
 
@@ -77,46 +110,33 @@ form.addEventListener('submit', async (event) => {
     featureNames.map((name) => [name, Number(form.elements.namedItem(name).value)]),
   );
 
-  submitButton.disabled = true;
-  submitButton.classList.add('loading');
-  submitButton.setAttribute('aria-busy', 'true');
-  buttonLabel.textContent = 'Analyzing sample...';
-  resultLive.innerHTML = '<span class="status-dot"></span> ANALYZING';
-
+  setLoading(true);
   try {
-    if (!API_URL) {
+    if (!apiUrl) {
       throw new Error('Set the deployed backend URL in the api-base-url meta tag before publishing this frontend.');
     }
-    const response = await fetch(API_URL, {
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-
     const data = await response.json().catch(() => ({}));
+
     if (!response.ok) {
       throw new Error(data.detail || 'The analysis service could not process this sample.');
     }
-    if (![0, 1].includes(data.prediction) || typeof data.label !== 'string' || !Number.isFinite(data.probability)) {
+    if (![0, 1].includes(data.prediction) || typeof data.label !== 'string' || !Number.isFinite(data.probability) || data.probability < 0 || data.probability > 1) {
       throw new Error('The prediction service returned an unexpected result. Please try again.');
     }
 
-    resultTitle.textContent = data.label;
-    resultDescription.textContent = 'Predicted classification for this water sample.';
-    probabilityValue.textContent = `${(data.probability * 100).toFixed(1)}%`;
-    resultPanel.classList.remove('potable', 'non-potable');
-    resultPanel.classList.add('has-result', data.prediction === 1 ? 'potable' : 'non-potable');
-    resultLive.innerHTML = '<span class="status-dot"></span> COMPLETE';
+    renderPrediction(data);
   } catch (error) {
-    resultLive.innerHTML = '<span class="status-dot"></span> READY';
     const message = error instanceof TypeError
       ? 'Could not reach the prediction API. Make sure the backend is running at http://127.0.0.1:8000.'
       : error.message;
     showError(message);
   } finally {
-    submitButton.disabled = false;
-    submitButton.classList.remove('loading');
-    submitButton.removeAttribute('aria-busy');
-    buttonLabel.textContent = 'Analyze Water';
+    setLoading(false);
   }
 });
