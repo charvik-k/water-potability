@@ -39,6 +39,15 @@ function clearError() {
   formError.hidden = true;
 }
 
+function clearPrediction() {
+  resultCard.classList.remove('has-result', 'potable', 'non-potable');
+  resultTitle.textContent = 'Ready for analysis';
+  resultDescription.textContent = 'Enter all nine measurements to generate a prediction.';
+  probabilityValue.textContent = '—';
+  probabilityTrack.setAttribute('aria-valuenow', '0');
+  probabilityFill.style.width = '0%';
+}
+
 function validateForm() {
   let firstInvalid = null;
 
@@ -76,6 +85,7 @@ function renderPrediction(data) {
   const className = data.prediction === 1 ? 'potable' : 'non-potable';
   const percentage = data.probability * 100;
 
+  clearError();
   resultCard.classList.remove('potable', 'non-potable');
   resultCard.classList.add('has-result', className);
   resultTitle.textContent = data.label;
@@ -109,6 +119,8 @@ form.addEventListener('submit', async (event) => {
     featureNames.map((name) => [name, Number(form.elements.namedItem(name).value)]),
   );
 
+  // Remove any earlier result so it cannot appear to belong to this request if it fails.
+  clearPrediction();
   setLoading(true);
   try {
     const response = await fetch(apiUrl, {
@@ -127,6 +139,7 @@ form.addEventListener('submit', async (event) => {
 
     renderPrediction(data);
   } catch (error) {
+    clearPrediction();
     const message = error instanceof TypeError
       ? `The request to ${new URL(apiUrl, window.location.href).href} could not be completed. Check the API route and backend availability.`
       : error.message;
